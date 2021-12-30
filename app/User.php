@@ -37,4 +37,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'meta'              => 'json'
     ];
+
+    public function address()
+    {
+        return $this->hasOne('App\Address', 'user_id', 'id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment', 'user_id', 'id');
+        // Second and third are optional because we are using Laravel convention when createing foreign key columns
+    }
 }

@@ -1,6 +1,13 @@
 <?php
 
+use App\Address;
+use App\City;
+use App\Comment;
+use App\Reservation;
+use App\Room;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +21,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/info', function () {
+    $array = [];
+
+    $result = Room::where('room_size', 4)->get();
+
+    foreach ($result as $room) {
+        foreach ($room->cities as $city) {
+            array_push($array, $city);
+        }
+    }
+    return response()->json([$array]);
 });

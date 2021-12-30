@@ -17,11 +17,38 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-    /* $results = DB::table('comments')->paginate(3); */
-    /* $results = DB::table('comments')->simplePaginate(3); */
-    /* $results = DB::statement('ALTER TABLE comments ADD FULLTEXT fulltext_index (content)'); */
-    /* $result = DB::table('comments')->whereRaw('MATCH(content) AGAINST(? IN BOOLEAN MODE)', ['repellendus'])->get(); */
-    $result = DB::table('comments')->where('content', 'like', '%repellendus%')->get();
+    /* $result = DB::table('reservations') */
+    /*     ->join('rooms', 'reservations.room_id', '=', 'rooms.id') */
+    /*     ->join('users', 'reservations.user_id', '=', 'users.id') */
+    /*     ->where('rooms.id', '>', 3) */
+    /*     ->where('users.id', '>', 1) */
+    /*     ->get(); */
+
+    /* // Same as above but easier to read */
+    /* $result = DB::table('reservations') */
+    /*     ->join('rooms', function ($join) { */
+    /*         $join->on('reservations.room_id', '=', 'rooms.id') */
+    /*             ->where('rooms.id', '>', 3); */
+    /*     })->join('users', function ($join) { */
+    /*         $join->on('reservations.user_id', '=', 'users.id') */
+    /*             ->where('users.id', '=', 1); */
+    /*     })->get(); */
+
+    /* $rooms = DB::table('rooms')->where('id', '>', 3); */
+    /* $users = DB::table('users')->where('id', '>', 1); */
+    /* $result = DB::table('reservations') */
+    /*     ->joinSub($rooms, 'rooms', function ($join) { */
+    /*         $join->on('reservations.room_id', '=', 'rooms.id'); */
+    /*     }) */
+    /*     ->joinSub($users, 'users', function ($join) { */
+    /*         $join->on('reservations.user_id', '=', 'users.id'); */
+    /*     }) */
+    /*     ->get(); */
+
+
+    $result = DB::table('rooms')
+        ->crossJoin('cities')
+        ->get();
     dump($result);
 
     return view('welcome');
